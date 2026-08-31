@@ -315,6 +315,7 @@ These were converted into a consistent representation so that refund rates could
 
 ---
 
+
 #  Data Validation
 
 After cleaning, I performed validation checks to make sure the cleaned dataset was suitable for analysis.
@@ -338,6 +339,63 @@ railway_cleaned.csv
 ```
 
 ---
+
+##  Before & After Data Cleaning
+
+The original dataset contained several data quality issues such as inconsistent formatting, missing values, inconsistent categorical values, invalid prices, and duplicate records.
+
+###  Before Cleaning — Messy Data
+
+The raw dataset contained inconsistent values such as different date formats, capitalization, abbreviations, spacing, and price formats.
+
+| Transaction ID | Date of Purchase | Purchase Type | Ticket Class | Ticket Type | Price(GBP) | Journey Status |
+| -------------- | ---------------- | ------------- | ------------ | ----------- | ---------: | -------------- |
+| TR001          | 01/15/2024       | Online        | standard     | Advance     |     £35.00 | On Time        |
+| tr002          | 15/02/2024       | online        | Standard     | advance     |       40.0 | On-Time        |
+| TR003          | 2024/03/18       | Station       | Std          | Off Peak    |        £25 | Delayed        |
+| TR004          | March 20, 2024   | Station       | FIRST CLASS  | Anytime     |        -10 | delayed        |
+| TR005          | 03-25-2024       | ONLINE        | Standard     | Advance     |       NULL | Cancelled      |
+
+> **Note:** The table above is a simplified example of the types of inconsistencies found in the original dataset.
+
+---
+
+###  After Cleaning — Cleaned Data
+
+After applying SQL-based data cleaning and validation, the data was standardized into a consistent format.
+
+| Transaction ID | Date of Purchase | Purchase Type | Ticket Class | Ticket Type | Price(GBP) | Journey Status |
+| -------------- | ---------------- | ------------- | ------------ | ----------- | ---------: | -------------- |
+| TR001          | 2024-01-15       | Online        | Standard     | Advance     |      35.00 | On-Time        |
+| TR002          | 2024-02-15       | Online        | Standard     | Advance     |      40.00 | On-Time        |
+| TR003          | 2024-03-18       | Station       | Standard     | Off-Peak    |      25.00 | Delayed        |
+| TR004          | 2024-03-20       | Station       | First Class  | Anytime     |       NULL | Delayed        |
+| TR005          | 2024-03-25       | Online        | Standard     | Advance     |       NULL | Cancelled      |
+
+###  Cleaning Examples
+
+| Data Issue     | Before       | After        |
+| -------------- | ------------ | ------------ |
+| Date format    | `01/15/2024` | `2024-01-15` |
+| Capitalization | `online`     | `Online`     |
+| Ticket class   | `Std`        | `Standard`   |
+| Ticket type    | `Off Peak`   | `Off-Peak`   |
+| Journey status | `On Time`    | `On-Time`    |
+| Price format   | `£35.00`     | `35.00`      |
+| Extra spaces   | `Standard  ` | `Standard`   |
+| Invalid price  | `-10`        | `NULL`       |
+
+The cleaned dataset was then used for the **Exploratory Data Analysis (EDA)** phase of the project.
+
+
+
+
+
+
+
+
+
+
 
 #  Exploratory Data Analysis
 
